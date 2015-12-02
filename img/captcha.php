@@ -14,15 +14,15 @@ function str ($len) {
   return $s;
 }
 
-$img = imagecreatetruecolor(384, 128);
-imagefilledrectangle($img, 0, 0, 384, 128, imagecolorallocate($img, 200, 200, 200));
-$str = str(6);
-$fonts = array("arial", "ubuntu", "verdana");
-for ($i = 0; $i < 6; $i++) {
-  imagettftext($img, 64, mt_rand(0, 90), (64*$i)+mt_rand(0, 80), 64, imagecolorallocate($img, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)), '../fonts/'.$fonts[mt_rand(0, 2)].'.ttf', $str[$i]);
+$img = imagecreatetruecolor(64*$s_len, 128);
+imagefilledrectangle($img, 0, 0, 64*$s_len, 128, imagecolorallocate($img, 200, 200, 200));
+$str = str($s_len);
+for ($i = 0; $i < $s_len; $i++) {
+  imagettftext($img, 64, mt_rand($rotation_min, $rotation_max), (64*$i)+mt_rand(0, 80), 64, imagecolorallocate($img, mt_rand($t_color_min[0], $t_color_max[0]), mt_rand($t_color_min[1], $t_color_max[1]), mt_rand($t_color_min[2], $t_color_max[2])), '../'.$fonts_dir.$fonts[mt_rand(0, count($fonts)-1)].'.ttf', $str[$i]);
 }
+setcookie($c_name, hash('sha256', $str), $c_expire, $c_path, $c_domain);
+
 header("Content-type: image/png");
 imagepng($img);
 imagedestroy($img);
-setcookie($c_name, hash('sha256', $str), $c_expire, $c_path, $c_domain);
 ?>
